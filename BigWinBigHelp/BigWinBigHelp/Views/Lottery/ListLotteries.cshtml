@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BigWinBigHelp.Models.LotteryDto>
+@{
+    ViewBag.Title = "Lottery List";
+}
+
+<h2>ListLotteries</h2>
+@foreach (var lottery in Model)
+{
+    <h2>@lottery.id</h2>
+    <h3>@lottery.name</h3>
+    <h3>@lottery.startdate</h3>
+    <h3>@lottery.enddate</h3>
+    <h3>@lottery.total_prize</h3>
+
+}

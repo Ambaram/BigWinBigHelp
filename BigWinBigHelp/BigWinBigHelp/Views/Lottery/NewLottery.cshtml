@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Add Lottery";
+}
+
+<h2>Add Lottery</h2>
+<form method="post" action="Lottery/AddLottery">
+    <label for=" name">Name</label><input type="text" id="name" name="name" />
+    <label for=" start">Start Date</label><input type="date" id="start" name="start" />
+    <label for=" end">End Date</label><input type="date" id="end" name="end" />
+    <label for=" prize">Total Prize</label><input type="text" id="prize" name="prize" />
+    <input type="submit" value="Add" name="Add" />
+</form>
+

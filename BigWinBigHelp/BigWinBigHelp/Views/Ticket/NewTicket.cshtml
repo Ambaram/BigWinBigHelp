@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "New Ticket";
+}
+
+<h2>New Ticket</h2>
+
+<form method="post" action="Ticket/AddTicket">
+    <label for=" name">Name</label><input type="text" id="name" name="name" />
+    <label for=" end">Price</label><input type="text" id="price" name="price" />
+    <label for=" prize">Multiplier</label><input type="text" id="multiplier" name="multiplier" />
+    <input type="submit" value="Add" name="Add" />
+</form>

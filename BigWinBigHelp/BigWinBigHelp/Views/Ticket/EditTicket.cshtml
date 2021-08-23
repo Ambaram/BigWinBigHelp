@@ -1,0 +1,16 @@
+﻿@model BigWinBigHelp.Models.TicketDto
+@{
+    ViewBag.Title = "Edit Ticket";
+}
+
+<h2>EditLottery</h2>
+
+<form method="post" action="Ticket/UpdateTicket/@Model.id">
+    <div style="display:none">
+        <input type="text" name="id" value="@Model.id" />
+    </div>
+    <label for=" name">Name</label><input type="text" id="name" name="name" value="@Model.ticket_name" />
+    <label for=" start">Start Date</label><input type="date" id="start" name="start" value="@Model.ticket_price" />
+    <label for=" prize">Total Prize</label><input type="text" id="prize" name="prize" value="@Model.multiplier" />
+    <input type="submit" value="Update" name="update" />
+</form>

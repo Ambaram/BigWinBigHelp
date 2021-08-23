@@ -1,0 +1,12 @@
+﻿@model IEnumerable<BigWinBigHelp.Models.TicketDto>
+@{
+    ViewBag.Title = "ListTickets";
+}
+
+<h2>List Tickets</h2>
+@foreach(var t in Model)
+            {
+                <h2>@t.ticket_name</h2>
+                <h3>@t.ticket_price</h3>
+                <h3>@t.multiplier</h3>
+            }

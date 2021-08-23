@@ -1,0 +1,14 @@
+﻿@model BigWinBigHelp.Models.participantdto
+@{
+    ViewBag.Title = "Edit Participant";
+}
+
+<h2>Edit Participant</h2>
+
+<form method="post" action="Participant/UpdateParticipant/@Model.id">
+    <div style="display:none">
+        <input type="text" name="id" value="@Model.id" />
+    </div>
+    <label for=" name">Name</label><input type="text" id="name" name="name" value="@Model.name" />
+    <input type="submit" value="Update" name="update" />
+</form>

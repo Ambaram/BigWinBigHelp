@@ -1,0 +1,12 @@
+﻿@model BigWinBigHelp.Models.LotteryDto
+@{
+    ViewBag.Title = "Delete Confirm";
+}
+
+<h2>Are you sure you want to delete this lottery</h2>
+<a href="Lottery/ListLotteries">Cancel</a>
+<h2>@Model.id</h2>
+<form action="Lottery/DeleteLottery" method="post">
+    <input type="submit" value="Delete Lottery" />
+</form>
+

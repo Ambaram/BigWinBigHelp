@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BigWinBigHelp.Models.participantdto>
+@{
+    ViewBag.Title = "List Participants";
+}
+
+<h2>List Participants</h2>
+@foreach(var p in Model)
+            {
+                <h2>@p.id</h2>
+                <h3>@p.name</h3>
+            }
