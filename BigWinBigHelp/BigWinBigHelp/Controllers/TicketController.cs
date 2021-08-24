@@ -13,6 +13,7 @@ namespace BigWinBigHelp.Controllers
     {
         private static readonly HttpClient client;
         private JavaScriptSerializer jss = new JavaScriptSerializer();
+        // HTTP Cleint Handler to listen to HTTP request 
         static TicketController()
         {
             HttpClientHandler handler = new HttpClientHandler()
@@ -23,7 +24,12 @@ namespace BigWinBigHelp.Controllers
             client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44377/api/");
         }
-        // GET: Ticket/ListTickets
+        /// <summary>
+        /// Fetch a list of tickets available in the database
+        /// </summary>
+        /// <example>GET : Ticket/ListTickets</example>
+        /// <returns>an IEnumerated object</returns>
+        [HttpGet]
         public ActionResult ListTickets()
         {
             string url = "TicketData/ListTickets";
@@ -32,21 +38,32 @@ namespace BigWinBigHelp.Controllers
             IEnumerable<TicketDto> tickets = response.Content.ReadAsAsync<IEnumerable<TicketDto>>().Result;
             return View(tickets);
         }
-        // GET: Ticket/Error
+        /// <summary>
+        /// An error page will be displayed if any issue happens
+        /// </summary>
+        /// <returns>Error View</returns>
         [HttpGet]
         public ActionResult Error()
         {
             return View();
         }
        
-        // GET: Ticket/NewTicket
+        /// <summary>
+        /// A new ticket method to add new ticket into the database
+        /// </summary>
+        /// <example>GET : Ticket/NewTicket</example>
+        /// <returns>New Ticket page</returns>
         public ActionResult NewTicket()
         {
             return View();
         }
-
-        // POST: Ticket/AddTicket
+        /// <summary>
+        /// Adds a new ticket to the database
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <example>POST : Ticket/AddTicket</example>
         [HttpPost]
+        [Authorize]
         public ActionResult AddTicket(Ticket ticket)
         {
             string url = "TicketData/AddTicket";
@@ -64,7 +81,12 @@ namespace BigWinBigHelp.Controllers
             }
         }
 
-        // GET: Ticket/EditTicket/5
+        /// <summary>
+        /// Displays a view to edit the data of selected ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <example>GET: Ticket/EditTicket/5</example>
         public ActionResult EditTicket(int id)
         {
             string url = "TicketData/FindTicket/" + id;
@@ -72,9 +94,14 @@ namespace BigWinBigHelp.Controllers
             TicketDto selectedticket = response.Content.ReadAsAsync<TicketDto>().Result;
             return View(selectedticket);
         }
-
-        // POST: Ticket/UpdateTicket/5
+        /// <summary>
+        /// Updates the ticket data for the selected data with the new entries passed in the ticket object
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ticket"></param>
+        /// <example> POST: Ticket/UpdateTicket/5 </example>
         [HttpPost]
+        [Authorize]
         public ActionResult UpdateTicket(int id, Ticket ticket)
         {
             string url = "TicketData/UpdateTicket/" + id;
@@ -91,9 +118,13 @@ namespace BigWinBigHelp.Controllers
                 return RedirectToAction("Error");
             }
         }
-
-        // GET: Ticket/Delete/5
+        /// <summary>
+        /// Displays a view to delete the selected ticket data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <example>GET: Ticket/Delete/5</example>
         [HttpGet]
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "TicketData/FindTicket/" + id;
@@ -101,8 +132,12 @@ namespace BigWinBigHelp.Controllers
             TicketDto selectedticket = response.Content.ReadAsAsync<TicketDto>().Result;
             return View(selectedticket);
         }
-
-        // POST: Ticket/DeleteTicket/5
+        /// <summary>
+        /// Deletes the ticket data of the selected ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ticket"></param>
+        /// <example>POST: Ticket/DeleteTicket/5</example>
         [HttpPost]
         public ActionResult DeleteTicket(int id, Ticket ticket)
         {

@@ -15,8 +15,13 @@ namespace BigWinBigHelp.Controllers
     public class LotteryDataController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: api/LotteryData/ListLotteries
+        ///<summary>Method to list lotteries in the database</summary>
+        ///<returns>
+        ///Status Code 200 : Request successful
+        ///Status Code 402 : Not Found
+        ///</returns>
+        ///<example>GET: api/LotteryData/ListLotteries</example>
+        [HttpGet]
         public IHttpActionResult ListLotteries()
         {
             List<Lottery> lotteries = db.Lotteries.ToList();
@@ -31,9 +36,17 @@ namespace BigWinBigHelp.Controllers
             }));
             return Ok(lotteryDtos);
         }
-
-        // GET: api/LotteryData/FindLottery/5
+        /// <summary>
+        /// Fetch the data of selected lottery from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// Status Code 200 : OK: Request Successful
+        /// Staus Code 404: Not Found
+        /// </returns>
+        /// <example>GET: api/LotteryData/FindLottery/5</example>
         [ResponseType(typeof(Lottery))]
+        [HttpGet]
         public IHttpActionResult FindLottery(int id)
         {
             Lottery lottery = db.Lotteries.Find(id);
@@ -52,9 +65,20 @@ namespace BigWinBigHelp.Controllers
 
             return Ok(lotteryDto);
         }
-
+        /// <summary>
+        /// Updates the lottery data for the selected lottery
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lottery"></param>
+        /// <returns>
+        /// 200 OK : Suucess
+        /// 404 NOT FOUND
+        /// 402: Forbidden
+        /// </returns>
         // POST: api/LotteryData/UpdateLottery/5
         [ResponseType(typeof(void))]
+        [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateLottery(int id, Lottery lottery)
         {
             if (!ModelState.IsValid)
@@ -87,9 +111,18 @@ namespace BigWinBigHelp.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
+        /// <summary>
+        /// Add new lottery to the database
+        /// </summary>
+        /// <param name="lottery"></param>
+        /// <returns>
+        /// 200 OK : Successful
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
         // POST: api/LotteryData/AddLottery
         [HttpPost]
+        [Authorize]
         [ResponseType(typeof(Lottery))]
         public IHttpActionResult AddLottery(Lottery lottery)
         {
@@ -103,8 +136,16 @@ namespace BigWinBigHelp.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = lottery.id }, lottery);
         }
-
-        // DELETE: api/Lotteries/DeleteLottery/5
+        /// <summary>
+        /// Delete the selected lottery data from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// 200 OK : Successful
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>DELETE: api/Lotteries/DeleteLottery/5 </example>
         [ResponseType(typeof(Lottery))]
         public IHttpActionResult DeleteLottery(int id)
         {

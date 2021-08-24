@@ -15,6 +15,7 @@ namespace BigWinBigHelp.Controllers
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         static ParticipantController()
         {
+            // HTTP Client handler to listen to HTTP request
             HttpClientHandler handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false,
@@ -23,7 +24,11 @@ namespace BigWinBigHelp.Controllers
             client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44377/api/");
         }
-        // GET: Participant/ListParticipants
+        /// <summary>
+        /// List the participants available in the database
+        /// </summary>
+        /// <returns>IEnuerable object containig the participant data</returns>
+        /// <example>GET: Participant/ListParticipants </example>
         [HttpGet]
         public ActionResult ListParticipant()
         {
@@ -34,21 +39,35 @@ namespace BigWinBigHelp.Controllers
             return View(participants);
         }
 
+        /// <summary>
+        /// Error view for participant entity
+        /// </summary>
+        /// <returns>Error View</returns>
+        /// <example>Participant/Error</example>
         [HttpGet]
         public ActionResult Error()
         {
             return View();
         }
 
-        // GET: Participant/Create
+        /// <summary>
+        /// Show a view to add new participant to the database
+        /// </summary>
+        /// <returns>New Participant view</returns>
+        // GET: Participant/NewParticipant
         [HttpGet]
         public ActionResult NewParticipant()
         {
             return View();
         }
 
-        // POST: Participant/Create
+        /// <summary>
+        /// Add new participant to the database
+        /// </summary>
+        /// <param name="participant"></param>
+        // POST: Participant/AddParticipant
         [HttpPost]
+        [Authorize]
         public ActionResult AddParticipant(Participant participant)
         {
             string url = "ParticipantData/AddParticipant";
@@ -65,8 +84,12 @@ namespace BigWinBigHelp.Controllers
                 return RedirectToAction("Error");
             }
         }
-
-        // GET: Participant/EditParticipant/5
+        /// <summary>
+        /// Edit the selected participant data into the databse
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Edit Participant view</returns>
+        /// <example>GET: Participant/EditParticipant/5 </example>
         [HttpGet]
         public ActionResult EditParticipant(int id)
         {
@@ -75,9 +98,14 @@ namespace BigWinBigHelp.Controllers
             participantdto selectedparticipant = response.Content.ReadAsAsync<participantdto>().Result;
             return View(selectedparticipant);
         }
-
-        // POST: Participant/UpdateParticipant/5
+        /// <summary>
+        /// Update the selected participant data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="participant"></param>
+        /// POST: Participant/UpdateParticipant/5
         [HttpPost]
+        [Authorize]
         public ActionResult UpdateParticipant(int id, Participant participant)
         {
             string url = "ParticipantData/UpdateParticipant/" + id;
@@ -95,7 +123,13 @@ namespace BigWinBigHelp.Controllers
             }
         }
 
-        // GET: Participant/DeleteConfirm/5
+        /// <summary>
+        /// View to ask user to delete selected participant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Delete Confirm View</returns>
+        /// <example>GET: Participant/DeleteConfirm/5 </example>
+        [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "ParticipantData/FindParticipant/" + id;
@@ -103,9 +137,14 @@ namespace BigWinBigHelp.Controllers
             participantdto selectedparticipant = response.Content.ReadAsAsync<participantdto>().Result;
             return View(selectedparticipant);
         }
-
-        // POST: Participant/DeleteParticipant/5
+        /// <summary>
+        /// Deletes the selected participant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="participant"></param>
+        /// <example>POST: Participant/DeleteParticipant/5 </example>
         [HttpPost]
+        [Authorize]
         public ActionResult DeleteParticipant(int id, Participant participant)
         {
             string url = "TicketData/DeleteTicket/" + id;

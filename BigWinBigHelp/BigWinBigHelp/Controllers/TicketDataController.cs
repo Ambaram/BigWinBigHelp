@@ -15,8 +15,15 @@ namespace BigWinBigHelp.Controllers
     public class TicketDataController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: api/TicketData/ListTickets
+        /// <summary>
+        /// Fetches the list of availabe tickets from the database
+        /// </summary>
+        /// <returns>
+        /// 200 OK : Success
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>GET: api/TicketData/ListTickets </example>
         public IHttpActionResult ListTickets()
         {
             List<Ticket> Tickets = db.Tickets.ToList();
@@ -30,7 +37,17 @@ namespace BigWinBigHelp.Controllers
             }));
             return Ok(ticketDtos) ;
         }
-        // GET: api/TicketData/5
+
+        /// <summary>
+        /// Finds the data of selected ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// 200 OK : Successful
+        /// 404 NOT Found
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>GET: api/TicketData/FindTicket/5 </example>
         [HttpGet]
         [ResponseType(typeof(Ticket))]
         public IHttpActionResult FindTicket(int id)
@@ -51,8 +68,19 @@ namespace BigWinBigHelp.Controllers
             return Ok(ticketDto);
         }
 
-        // POST: api/TicketData/UpdateTicket/5
+        /// <summary>
+        /// Updates the ticket data of the selected ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ticket"></param>
+        /// <returns>
+        /// 200 OK : Success
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>POST: api/TicketData/UpdateTicket/5 </example>
         [HttpPost]
+        [Authorize]
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateTicket(int id, Ticket ticket)
         {
@@ -87,8 +115,18 @@ namespace BigWinBigHelp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/TicketData/AddTicket
+        /// <summary>
+        /// Add new ticket to the database
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>POST: api/TicketData/AddTicket </example>
         [HttpPost]
+        [Authorize]
         [ResponseType(typeof(Ticket))]
         public IHttpActionResult AddTicket(Ticket ticket)
         {
@@ -103,8 +141,18 @@ namespace BigWinBigHelp.Controllers
             return CreatedAtRoute("DefaultApi", new { id = ticket.id }, ticket);
         }
 
-        // DELETE: api/TicketData/DeleteTicket/5
+        /// <summary>
+        /// Deletes a ticket data  
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>DELETE: api/TicketData/DeleteTicket/5 </example>
         [HttpPost]
+        [Authorize]
         [ResponseType(typeof(Ticket))]
         public IHttpActionResult DeleteTicket(int id)
         {

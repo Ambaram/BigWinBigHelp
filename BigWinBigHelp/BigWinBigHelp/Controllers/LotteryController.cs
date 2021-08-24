@@ -15,6 +15,7 @@ namespace BigWinBigHelp.Controllers
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         static LotteryController()
         {
+            // client handler to listen to http request to commnunicate with the api
             HttpClientHandler handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false,
@@ -23,7 +24,12 @@ namespace BigWinBigHelp.Controllers
             client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44377/api/");
         }
-        // GET: Lottery/ListLotteries
+        /// <summary>
+        /// Returns a list of lotteries available in the system
+        /// </summary>
+        /// <returns>IEnumerable object containing the lotteries in  the system</returns>
+        /// <example>GET: Lottery/ListLotteries</example>
+        [HttpGet]
         public ActionResult ListLotteries()
         {
             string url = "LotteryData/ListLotteries";
@@ -32,21 +38,34 @@ namespace BigWinBigHelp.Controllers
             IEnumerable<LotteryDto> lotteries = response.Content.ReadAsAsync<IEnumerable<LotteryDto>>().Result; 
             return View(lotteries);
         }
-
-        // GET: Lottery/Error
+        /// <summary>
+        /// Error view for lottery entity
+        /// </summary>
+        /// <example>GET: Lottery/Error </example>
+        [HttpGet]
         public ActionResult Error()
         {
             return View();
         }
-
-        // GET: Lottery/NewLottery
+        /// <summary>
+        /// Displays a view to add a new lottery to the system
+        /// </summary>
+        /// <returns>New Lottery View</returns>
+        /// <example>GET: Lottery/NewLottery </example>
+        [HttpGet]
+        [Authorize]
         public ActionResult NewLottery()
         {
             return View();
         }
 
+        /// <summary>
+        /// Adds new lottery to the system
+        /// </summary>
+        /// <param name="lottery"></param>
         // POST: Lottery/AddLottery
         [HttpPost]
+        [Authorize]
         public ActionResult AddLottery(Lottery lottery)
         {
             string url = "TicketData/AddLottery";
@@ -63,8 +82,14 @@ namespace BigWinBigHelp.Controllers
                 return RedirectToAction("Error");
             }
         }
-
-        // GET: Lottery/EditLottery/5
+        /// <summary>
+        /// Displays view to edit the selected lottery
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>EditLottery View</returns>
+        /// <example>GET: Lottery/EditLottery/5 </example>
+        [HttpGet]
+        [Authorize]
         public ActionResult EditLottery(int id)
         {
             string url = "LotteryData/FindLottery/" + id;
@@ -73,8 +98,15 @@ namespace BigWinBigHelp.Controllers
             return View(selectedlottery);
         }
 
-        // POST: Lottery/Edit/5
+        /// <summary>
+        /// Updates the selected lottery information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lottery"></param>
+        /// <returns></returns>
+        /// <example>POST: Lottery/Edit/5 </example>
         [HttpPost]
+        [Authorize]
         public ActionResult UpdateLottery(int id, Lottery lottery)
         {
             string url = "LotteryData/UpdateLottery/" + id;
@@ -92,7 +124,14 @@ namespace BigWinBigHelp.Controllers
             }
         }
 
-        // GET: Lottery/DeleteConfirm/5
+        /// <summary>
+        /// Displays view to confirm if the selected lottery to be deleted
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <example>GET: Lottery/DeleteConfirm/5</example>
+        [HttpGet]
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "LotteryData/FindLottery/" + id;
@@ -101,8 +140,14 @@ namespace BigWinBigHelp.Controllers
             return View(selectedlottery);
         }
 
-        // POST: Lottery/DeleteLottery/5
+        /// <summary>
+        /// Deletes the selected lottery from the system
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lottery"></param>
+        /// <example>POST: Lottery/DeleteLottery/5</example>
         [HttpPost]
+        [Authorize]
         public ActionResult DeleteLottery(int id, Lottery lottery)
         {
             string url = "LotteryData/DeleteLottery/" + id;

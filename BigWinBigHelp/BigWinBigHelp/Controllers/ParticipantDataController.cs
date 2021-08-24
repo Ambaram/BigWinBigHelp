@@ -15,8 +15,15 @@ namespace BigWinBigHelp.Controllers
     public class ParticipantDataController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: api/ParticipantData/ListParticipants
+        /// <summary>
+        /// List the participants present in the database
+        /// </summary>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>GET: api/ParticipantData/ListParticipants</example>
         [HttpGet]
         public IHttpActionResult ListParticipants()
         {
@@ -30,7 +37,16 @@ namespace BigWinBigHelp.Controllers
             return Ok(participantdtos);
         }
 
-        // GET: api/ParticipantData/FindParticipant/5
+        /// <summary>
+        /// Fetches specific participant from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>GET: api/ParticipantData/FindParticipant/5 </example>
         [HttpGet]
         [ResponseType(typeof(Participant))]
         public IHttpActionResult FindParticipant(int id)
@@ -49,8 +65,19 @@ namespace BigWinBigHelp.Controllers
             return Ok(participantdto);
         }
 
-        // Post: api/ParticipantData/UpdateParticipant/5
+        /// <summary>
+        /// Updates the data of selected participant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="participant"></param>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>Post: api/ParticipantData/UpdateParticipant/5 </example>
         [HttpPost]
+        [Authorize]
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateParticipant(int id, Participant participant)
         {
@@ -85,8 +112,18 @@ namespace BigWinBigHelp.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/ParticipantData/AddParticipant
+        /// <summary>
+        /// Add new participant to the database
+        /// </summary>
+        /// <param name="participant"></param>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>POST: api/ParticipantData/AddParticipant </example>
         [HttpPost]
+        [Authorize]
         [ResponseType(typeof(Participant))]
         public IHttpActionResult PostParticipant(Participant participant)
         {
@@ -101,7 +138,16 @@ namespace BigWinBigHelp.Controllers
             return CreatedAtRoute("DefaultApi", new { id = participant.id }, participant);
         }
 
-        // DELETE: api/ParticipantData/DeleteParticipant/5
+        /// <summary>
+        /// Delete specific participant from  the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// 200 OK
+        /// 404 NOT FOUND
+        /// 402 Forbidden
+        /// </returns>
+        /// <example>DELETE: api/ParticipantData/DeleteParticipant/5 </example>
         [ResponseType(typeof(Participant))]
         public IHttpActionResult DeleteParticipant(int id)
         {
